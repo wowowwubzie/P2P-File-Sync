@@ -1,0 +1,44 @@
+services: #each node needs to have its own services 
+  node1:
+    build: .
+    environment:
+      - NODE_NAME=node1 #simply the node name
+      - SYNC_DIR=/sync # directory path inside the container for sync
+      - NODE_PORT= 5001 #port we are using to listen to connections. 
+    volumes:
+      - ./sync/node1:/sync #mapping our local directory to container directory for docker
+    networks:
+      - syncnet #network for communication with container 
+  node2: #same as node1 but changed name and port
+    build: .
+    environment:
+      - NODE_NAME=node2
+      - SYNC_DIR=/sync
+      - NODE_PORT=5002
+    volumes:
+      - ./sync/node2:/sync
+    networks:
+      - syncnet
+  node3: #same the pervious but changed name and port
+    build: .
+    environment:
+      - NODE_NAME=node3
+      - SYNC_DIR=/sync
+      - NODE_PORT=5003
+    volumes:
+      - ./sync/node3:/sync
+    networks:
+      - syncnet
+  node4:  #same the pervious but changed name and port
+    build: .
+    environment:
+      - NODE_NAME=node4
+      - SYNC_DIR=/sync
+      - NODE_PORT=5004
+    volumes:
+      - ./sync/node4:/sync
+    networks:
+      - syncnet
+networks: #establishing the networks 
+  syncnet: #this is our "custom"? bridge network
+    driver: bridge #brigde network we are using to create an isolated network for the different services 
